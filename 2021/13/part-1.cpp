@@ -34,43 +34,23 @@ int main() {
   }
 
   vector<vector<int>> new_coords;
-  vector<vector<int>> temp_coords = coords;
-  FOR(j, fold_keys) {
-    new_coords.clear();
-    cout << "Fold " << fold_keys[j] << ": " << fold_values[j] << endl;
-    FOR(i, temp_coords) {
-      vector<int> new_coord = temp_coords[i];
-      if(fold_keys[j] == 'y') {
-        int y = temp_coords[i][1];
-        if (y > fold_values[j]) {
-          new_coord[1] = fold_values[j] - (y - fold_values[j]);
-        }
-      } else {
-        int x = temp_coords[i][0];
-        if (x > fold_values[j]) {
-          new_coord[0] = fold_values[j] - (x - fold_values[j]);
-        }
+  FOR(i, coords) {
+    vector<int> new_coord = coords[i];
+    if(fold_keys[0] == 'y') {
+      int y = coords[i][1];
+      if (y > fold_values[0]) {
+        new_coord[1] = fold_values[0] - (y - fold_values[0]);
       }
-      if(is_unique(new_coords, new_coord)) {
-        new_coords.push_back(new_coord);
+    } else {
+      int x = coords[i][0];
+      if (x > fold_values[0]) {
+        new_coord[0] = fold_values[0] - (x - fold_values[0]);
       }
     }
-    temp_coords = new_coords;
-  }
-  cout << endl;
-
-  FOR(i, 0, 6) {
-    FOR(j, 0, 50) {
-      if (!is_unique(new_coords, {j, i})) {
-        cout << "#";
-      } else {
-        cout << ".";
-      }
+    if(is_unique(new_coords, new_coord)) {
+      new_coords.push_back(new_coord);
     }
-    cout << endl;
   }
 
-  cout << endl;
-  cout << coords.size() << endl;
   cout << new_coords.size() << endl;
 }
