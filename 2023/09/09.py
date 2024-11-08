@@ -41,7 +41,7 @@ def main():
 
     sequences = []
     for line in lines:
-        sequences.append([int(i) for i in re.findall("-?\d+", line)])
+        sequences.append([int(i) for i in re.findall(r"-?\d+", line)])
 
     for sequence in sequences:
         (first, last) = next_in_sequence(sequence)

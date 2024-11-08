@@ -127,7 +127,7 @@ def main():
     tests = []
 
     for line in list(filter(None, tests_data.split("\n"))):
-        nums = re.findall("-?\d+", line)
+        nums = re.findall(r"-?\d+", line)
         tests.append([int(i) for i in nums])
 
     for t in tests:
