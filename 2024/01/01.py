@@ -14,17 +14,14 @@ def main():
         if len(sys.argv) > 2 and sys.argv[1] == "--data"
         else EXAMPLE_DATA
     )
-    chunks = list(filter(None, data.split("\n\n")))
     lines = list(filter(None, data.split("\n")))
     numbers_per_line = [[int(n) for n in re.findall(r"-?\d+", line)] for line in lines]
-    splits_per_line = [line.split() for line in lines]
 
     # Part 1
     low = []
     high = []
 
-    for numbers in numbers_per_line:
-        [l, h] = numbers
+    for [l, h] in numbers_per_line:
         low.append(l)
         high.append(h)
 
@@ -37,9 +34,7 @@ def main():
     # Part 2
     dict = {}
 
-    for numbers in numbers_per_line:
-        [_, h] = numbers
-
+    for [_, h] in numbers_per_line:
         if dict.get(h) == None:
             dict[h] = 0
         dict[h] += 1
