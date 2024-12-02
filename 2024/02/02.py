@@ -6,26 +6,20 @@ EXAMPLE_DATA = """
 
 
 def check_safety(numbers):
-    incr = False
-    decr = False
+    inc, dec = False, False
     in_range = True
 
     for i in range(1, len(numbers)):
         if numbers[i - 1] > numbers[i]:
-            incr = True
+            inc = True
         if numbers[i - 1] < numbers[i]:
-            decr = True
+            dec = True
 
-        if (
-            abs(numbers[i - 1] - numbers[i]) == 0
-            or abs(numbers[i - 1] - numbers[i]) > 3
-        ):
+        diff = abs(numbers[i - 1] - numbers[i])
+        if diff == 0 or diff > 3:
             in_range = False
 
-    if (not incr and not decr) or (incr and decr) or (not in_range):
-        return False
-
-    return True
+    return inc ^ dec and in_range
 
 
 def main():
@@ -47,18 +41,13 @@ def main():
 
     # Part 2
     for numbers in numbers_per_line:
-        one_safe = False
-
         for i in range(len(numbers)):
             numbers_copy = numbers.copy()
             del numbers_copy[i]
 
             if check_safety(numbers_copy):
-                one_safe = True
+                answer2 += 1
                 break
-
-        if one_safe:
-            answer2 += 1
 
     print(answer1)
     print(answer2)
