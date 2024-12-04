@@ -1,54 +1,12 @@
 import sys
+from collections import defaultdict
 
 EXAMPLE_DATA = """
 """.strip()
 
-
-def get_rows_cols_diags_as_strings(rows, max_row, max_col):
-    cols = [
-        "".join([rows[row][col] for row in range(max_row)]) for col in range(max_col)
-    ]
-
-    diags_lr = [
-        "".join([rows[row + i][i] for i in range(min(max_row - row, max_col))])
-        for row in range(max_row)
-    ]
-    diags_lr += [
-        "".join([rows[i][col + i] for i in range(min(max_row, max_col - col))])
-        for col in range(1, max_col)
-    ]
-
-    diags_rl = [
-        "".join(
-            [rows[row + i][max_col - 1 - i] for i in range(min(max_row - row, max_col))]
-        )
-        for row in range(max_row)
-    ]
-    diags_rl += [
-        "".join(
-            [rows[i][max_col - 1 - col - i] for i in range(min(max_row, max_col - col))]
-        )
-        for col in range(1, max_col)
-    ]
-
-    return rows, cols, diags_lr, diags_rl
-
-
-def check_for_structure(rows, row, col):
-    chars = []
-    for [r, c] in [[row - 1, col - 1], [row + 1, col - 1]]:
-        if r >= 0 and c >= 0 and r < len(rows) and c < len(rows):
-            chars.append(rows[r][c])
-
-    for [r, c] in [[row + 1, col + 1], [row - 1, col + 1]]:
-        if r >= 0 and c >= 0 and r < len(rows) and c < len(rows):
-            chars.append(rows[r][c])
-
-    return (
-        chars.count("S") == 2
-        and chars.count("M") == 2
-        and (chars[0] == chars[1] or chars[1] == chars[2])
-    )
+# [dx, dy]
+DIRS_DIAGS = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
+DIAGS = [[1, 1], [1, -1], [-1, -1], [-1, 1]]
 
 
 def main():
@@ -60,25 +18,43 @@ def main():
         if len(sys.argv) > 2 and sys.argv[1] == "--data"
         else EXAMPLE_DATA
     )
-    rows = list(filter(None, data.split("\n")))
+    grid = list(filter(None, data.split("\n")))
+
+    D = defaultdict(lambda: ".")
+    for x in range(len(grid)):
+        for y in range(len(grid[0])):
+            D[(x, y)] = grid[x][y]
 
     # Part 1
-    (rows, cols, diags_lr, diags_rl) = get_rows_cols_diags_as_strings(
-        rows, len(rows), len(rows)
-    )
+    for x, y in list(D.keys()):
+        if D[(x, y)] != "X":
+            continue
 
-    answer1 += sum([s.count("XMAS") + s.count("SAMX") for s in rows])
-    answer1 += sum([s.count("XMAS") + s.count("SAMX") for s in cols])
-    answer1 += sum([s.count("XMAS") + s.count("SAMX") for s in diags_lr])
-    answer1 += sum([s.count("XMAS") + s.count("SAMX") for s in diags_rl])
+        for [dx, dy] in DIRS_DIAGS:
+            valid_dir = True
+            for i, char in enumerate("MAS"):
+                if D[(x + (dx * (i + 1)), y + (dy * (i + 1)))] != char:
+                    valid_dir = False
+                    break
+
+            if valid_dir:
+                answer1 += 1
 
     # Part 2
-    for row in range(len(rows)):
-        for col in range(len(cols)):
-            char = rows[row][col]
-            if char == "A":
-                if check_for_structure(rows, row, col):
-                    answer2 += 1
+    for x, y in list(D.keys()):
+        if D[(x, y)] != "A":
+            continue
+
+        chars = []
+        for [dx, dy] in DIAGS:
+            chars.append(D[x + dx, y + dy])
+
+        if (
+            chars.count("M") == 2
+            and chars.count("S") == 2
+            and (chars[0] == chars[1] or chars[1] == chars[2])
+        ):
+            answer2 += 1
 
     print(answer1, answer2)
 
