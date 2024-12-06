@@ -1,6 +1,7 @@
 import sys
 import math
 import re
+from collections import defaultdict
 
 EXAMPLE_DATA = """
 """.strip()
