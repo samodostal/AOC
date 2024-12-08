@@ -4,6 +4,8 @@ import re
 from collections import defaultdict
 
 EXAMPLE_DATA = """
+aoeu
+htns
 """.strip()
 
 
@@ -20,7 +22,7 @@ def main():
     lines = list(filter(None, data.split("\n")))
     numbers_per_line = [[int(n) for n in re.findall(r"-?\d+", line)] for line in lines]
     splits_per_line = [line.split() for line in lines]
-    # G = defaultdict(lambda: "O", { (x, y): lines[x][y] for x in range(len(lines)) for y in range(len(lines[0])) })
+    G = defaultdict(lambda: "O", {(x, y,): lines[ y ][x] for x in range(len(lines[0])) for y in range(len(lines))})
 
     # cc
 
