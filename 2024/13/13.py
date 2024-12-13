@@ -7,28 +7,17 @@ EXAMPLE_DATA = """
 INCREASE = 10000000000000
 
 
-def solve(r, max):
-    ax, ay, bx, by, px, py = r
-    for a in range(max, 1, -1):
-        for b in range(max, 1, -1):
-            fx = a * ax + b * bx == px
-            fy = a * ay + b * by == py
-            if fx and fy:
-                return a * 3 + b * 1
-
-    return -1
-
-
-def solve2(r):
+def solve_det(r):
     ax, ay, bx, by, px, py = r
 
     A, B, C, D = ax, bx, ay, by
-    det = 1 / (A * D - B * C)
 
-    AA, BB, CC, DD = (D * det), (-B * det), (-C * det), (A * det)
+    det = A * D - B * C
+    det_x = px * D - py * B
+    det_y = A * py - C * px
 
-    cx = int(round(AA * px + BB * py))
-    cy = int(round(CC * px + DD * py))
+    cx = int(round(det_x / det))
+    cy = int(round(det_y / det))
 
     if A * cx + B * cy == px and C * cx + D * cy == py:
         return 3 * cx + cy
@@ -59,17 +48,16 @@ def main():
 
     # Part 1
     for round in rounds:
-        out = solve(round, 100)
+        out = solve_det(round)
         if out != -1:
             answer1 += out
 
     # Part 2
     for round in rounds:
         (ax, ay, bx, by, px, py) = round
-
         round = (ax, ay, bx, by, px + INCREASE, py + INCREASE)
 
-        out = solve2(round)
+        out = solve_det((ax, ay, bx, by, px + INCREASE, py + INCREASE))
         if out != -1:
             answer2 += out
 
