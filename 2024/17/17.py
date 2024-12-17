@@ -4,16 +4,9 @@ import re
 EXAMPLE_DATA = """
 """.strip()
 
-A = B = C = IP = -1
+A = B = C = -1
 
-ADV = 0
-BXL = 1
-BST = 2
-JNZ = 3
-BXC = 4
-OUT = 5
-BDV = 6
-CDV = 7
+ADV, BXL, BST, JNZ, BXC, OUT, BDV, CDV = range(0, 8)
 
 
 def combo(operand):
@@ -31,7 +24,7 @@ def combo(operand):
 
 
 def run(program):
-    global A, B, C, IP
+    global A, B, C
     IP = 0
     output = []
 
@@ -70,7 +63,7 @@ def run(program):
 
 
 def main():
-    global A, B, C, IP
+    global A, B, C
     answer1 = 0
     answer2 = 0
 
@@ -80,23 +73,18 @@ def main():
         else EXAMPLE_DATA
     )
     chunks = list(filter(None, data.split("\n\n")))
-    regs = list(filter(None, chunks[0].split("\n")))
-    nums = [[int(l) for l in re.findall(r"-?\d+", reg)] for reg in regs]
-    nums = [num for [num] in nums]
 
-    A, B, C = nums
-    IP = 0
+    A, B, C = list(map(int, re.findall(r"-?\d+", chunks[0])))
     program = list(map(int, re.findall(r"-?\d+", chunks[1])))
 
     # Part 1
-    output = run(program)
-    answer1 = ",".join([str(x) for x in output])
+    answer1 = ",".join([str(x) for x in run(program)])
 
     # Part 2
     output = []
     a = 0
     n = 1
-    while output != program:
+    while n - 1 != len(program):
         while output[-n:] != program[-n:]:
             A = a
             output = run(program)
