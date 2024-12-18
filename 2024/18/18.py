@@ -1,6 +1,5 @@
 import sys
 import re
-from collections import defaultdict
 import heapq
 
 EXAMPLE_DATA = """
@@ -8,8 +7,8 @@ EXAMPLE_DATA = """
 
 DIRS = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
-# L, H, N = 0, 6, 12
-L, H, N = 0, 70, 1024
+# H, N = 6, 12
+H, N = 70, 1024
 
 
 def dijkstra(graph, start):
@@ -34,20 +33,11 @@ def dijkstra(graph, start):
     return dists
 
 
-def create_grid(sliced_nums):
-    D = defaultdict(lambda: "X")
-    for x in range(0, H + 1):
-        for y in range(0, H + 1):
-            D[(x, y)] = "#" if [x, y] in sliced_nums else "."
-
-    return D
-
-
-def create_graph(D):
+def create_graph(nums):
     G = {}
-    for x in range(0, H + 1):
-        for y in range(0, H + 1):
-            if D[(x, y)] == "#":
+    for x in range(H + 1):
+        for y in range(H + 1):
+            if (x, y) in nums:
                 continue
 
             G[(x, y)] = []
@@ -56,18 +46,9 @@ def create_graph(D):
                 if nx < 0 or nx > H or ny < 0 or ny > H:
                     continue
 
-                if D[(nx, ny)] == ".":
+                if (nx, ny) not in nums:
                     G[(x, y)].append((nx, ny))
     return G
-
-
-def path_exists_for_nums(sliced_nums, D, G):
-    D = create_grid((sliced_nums))
-    G = create_graph(D)
-
-    distances = dijkstra(G, (0, 0))
-
-    return distances[(H, H)] != float("inf")
 
 
 def main():
@@ -81,28 +62,25 @@ def main():
         else EXAMPLE_DATA
     )
     lines = list(filter(None, data.split("\n")))
-    nums = [[int(n) for n in re.findall(r"-?\d+", line)] for line in lines]
-    sliced_nums = nums[:N]
+    walls = [tuple(int(n) for n in re.findall(r"-?\d+", line)) for line in lines]
+    walls_sliced = walls[:N]
 
     # Part 1
-    D = create_grid(sliced_nums)
-    G = create_graph(D)
-
-    answer1 = dijkstra(G, (0, 0))[(H, H)]
+    answer1 = dijkstra(create_graph(walls_sliced), (0, 0))[(H, H)]
 
     # Part 2
-    left, right = N, len(nums)
+    left, right = N, len(walls)
     while left <= right:
         mid = (left + right) // 2
-        sliced_nums = nums[:mid]
+        walls_sliced = walls[:mid]
 
-        if path_exists_for_nums(sliced_nums, D, G):
+        if dijkstra(create_graph(set(walls_sliced)), (0, 0))[(H, H)] != float("inf"):
             left = mid + 1
         else:
             right = mid - 1
 
-    [x, y] = nums[left - 1]
-    answer2 = str(x) + ", " + str(y)
+    [x, y] = walls[left - 1]
+    answer2 = str(x) + "," + str(y)
 
     print(answer1)
     print(answer2)
