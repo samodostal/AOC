@@ -8,17 +8,15 @@ def can_be_made_rec(target, patterns, memo):
     if target == "":
         return 1
 
-    if memo.get(target, None):
+    if memo.get(target):
         return memo[target]
 
     sum = 0
-
     for p in patterns:
         if len(target) >= len(p) and target.startswith(p):
             sum += can_be_made_rec(target[len(p) :], patterns, memo)
 
     memo[target] = sum
-
     return sum
 
 
@@ -38,7 +36,7 @@ def main():
 
     # Part 1 and 2
     for target in targets:
-        answer1 += 1 if can_be_made_rec(target, patterns, {}) != 0 else 0
+        answer1 += can_be_made_rec(target, patterns, {}) != 0
         answer2 += can_be_made_rec(target, patterns, {})
 
     print(answer1)
