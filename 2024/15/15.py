@@ -1,7 +1,7 @@
 import sys
 from collections import defaultdict
 
-EXAMPLE_DATA = """
+EXAMPLE_INPUT = """
 """.strip()
 
 # x, y
@@ -85,12 +85,12 @@ def main():
     answer1 = 0
     answer2 = 0
 
-    data = (
+    input = (
         open(sys.argv[2], "r").read()
-        if len(sys.argv) > 2 and sys.argv[1] == "--data"
-        else EXAMPLE_DATA
+        if len(sys.argv) > 2 and sys.argv[1] == "--input"
+        else EXAMPLE_INPUT
     )
-    chunks = list(filter(None, data.split("\n\n")))
+    chunks = list(filter(None, input.split("\n\n")))
     lines = list(filter(None, chunks[0].split("\n")))
     G = defaultdict(
         lambda: "O",

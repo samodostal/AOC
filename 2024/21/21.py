@@ -2,7 +2,7 @@ import itertools
 import sys
 import re
 
-EXAMPLE_DATA = """
+EXAMPLE_INPUT = """
 """.strip()
 
 numpad = {
@@ -117,12 +117,12 @@ def main():
     answer1 = 0
     answer2 = 0
 
-    data = (
+    input = (
         open(sys.argv[2], "r").read()
-        if len(sys.argv) > 2 and sys.argv[1] == "--data"
-        else EXAMPLE_DATA
+        if len(sys.argv) > 2 and sys.argv[1] == "--input"
+        else EXAMPLE_INPUT
     )
-    lines = list(filter(None, data.split("\n")))
+    lines = list(filter(None, input.split("\n")))
 
     for line in lines:
         numeric = int(re.findall(r"-?\d+", line)[0])

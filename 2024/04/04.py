@@ -1,7 +1,7 @@
 import sys
 from collections import defaultdict
 
-EXAMPLE_DATA = """
+EXAMPLE_INPUT = """
 """.strip()
 
 # [dx, dy]
@@ -13,12 +13,12 @@ def main():
     answer1 = 0
     answer2 = 0
 
-    data = (
+    input = (
         open(sys.argv[2], "r").read()
-        if len(sys.argv) > 2 and sys.argv[1] == "--data"
-        else EXAMPLE_DATA
+        if len(sys.argv) > 2 and sys.argv[1] == "--input"
+        else EXAMPLE_INPUT
     )
-    grid = list(filter(None, data.split("\n")))
+    grid = list(filter(None, input.split("\n")))
 
     D = defaultdict(lambda: ".")
     for x in range(len(grid)):

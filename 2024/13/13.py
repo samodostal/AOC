@@ -1,7 +1,7 @@
 import sys
 import re
 
-EXAMPLE_DATA = """
+EXAMPLE_INPUT = """
 """.strip()
 
 INCREASE = 10000000000000
@@ -29,12 +29,12 @@ def main():
     answer1 = 0
     answer2 = 0
 
-    data = (
+    input = (
         open(sys.argv[2], "r").read()
-        if len(sys.argv) > 2 and sys.argv[1] == "--data"
-        else EXAMPLE_DATA
+        if len(sys.argv) > 2 and sys.argv[1] == "--input"
+        else EXAMPLE_INPUT
     )
-    chunks = list(filter(None, data.split("\n\n")))
+    chunks = list(filter(None, input.split("\n\n")))
 
     rounds = []
 

@@ -13,7 +13,7 @@ def main():
 
     input = (
         open(sys.argv[2], "r").read()
-        if len(sys.argv) > 2 and sys.argv[1] == "--data"
+        if len(sys.argv) > 2 and sys.argv[1] == "--input"
         else EXAMPLE_INPUT
     )
     chunks = list(filter(None, input.split("\n\n")))

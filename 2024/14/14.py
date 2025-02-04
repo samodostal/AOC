@@ -2,7 +2,7 @@ import sys
 import math
 import re
 
-EXAMPLE_DATA = """
+EXAMPLE_INPUT = """
 """.strip()
 
 # W, H = 11, 7
@@ -51,12 +51,12 @@ def main():
     answer1 = 0
     answer2 = 0
 
-    data = (
+    input = (
         open(sys.argv[2], "r").read()
-        if len(sys.argv) > 2 and sys.argv[1] == "--data"
-        else EXAMPLE_DATA
+        if len(sys.argv) > 2 and sys.argv[1] == "--input"
+        else EXAMPLE_INPUT
     )
-    lines = list(filter(None, data.split("\n")))
+    lines = list(filter(None, input.split("\n")))
     robots = [[int(n) for n in re.findall(r"-?\d+", line)] for line in lines]
     robots2 = robots.copy()
 

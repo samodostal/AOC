@@ -1,7 +1,7 @@
 import sys
 import re
 
-EXAMPLE_DATA = """
+EXAMPLE_INPUT = """
 """.strip()
 
 A = B = C = -1
@@ -67,12 +67,12 @@ def main():
     answer1 = 0
     answer2 = 0
 
-    data = (
+    input = (
         open(sys.argv[2], "r").read()
-        if len(sys.argv) > 2 and sys.argv[1] == "--data"
-        else EXAMPLE_DATA
+        if len(sys.argv) > 2 and sys.argv[1] == "--input"
+        else EXAMPLE_INPUT
     )
-    chunks = list(filter(None, data.split("\n\n")))
+    chunks = list(filter(None, input.split("\n\n")))
 
     A, B, C = list(map(int, re.findall(r"-?\d+", chunks[0])))
     program = list(map(int, re.findall(r"-?\d+", chunks[1])))
