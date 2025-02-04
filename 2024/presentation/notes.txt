@@ -1,0 +1,23 @@
+Slide 1:
+Hey everyone, I'm Sam. I've been doing AOC for a while now and while I'm definitely not winning any global leaderboards, over the years I've optimized my setup and workflow to try solve problems quickly.
+
+This presentation will not about how to solve problems even though I will try to give some tips on that, but it will be about how to solve them fast, and how to prepare your environment for it
+Also assumes familiarity with AOC problem structure, so stuff like each problem consists of 2 parts, you have example and real input, so on.
+
+Tip 1:
+Choosing best programming language is a balance beteween efficiency and your familiarity with the language. By efficiency I don't mean the runtime speed of the program.
+
+I actually think language performance is one of the least important aspects. The problems are always designed so that a correct algorithm leads to fast runtime
+
+Some of the more important aspects are how string manipulation works in the language, memory management model, and how concise the syntax is.
+
+To give an example on the string manipulation,x  snthansotuonteuhtn
+
+
+Tip 2:
+My next tips is about being prepared, this is a thing that can save you a lot of time. I recommend having at least these 2 files prepared:
+Your template file which is your starter file for each day,
+
+Tip 3:
+
+
